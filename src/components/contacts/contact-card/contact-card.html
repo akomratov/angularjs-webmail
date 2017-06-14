@@ -1,0 +1,21 @@
+<div class="panel panel-info {{$ctrl.isSelected()}}"  ng-click="$ctrl.selectContact()">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{$ctrl.contact.name}}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class=" col-md-9 col-lg-9 ">
+                <table class="table table-user-information">
+                    <tbody>
+                    <tr><td><avatar image="$ctrl.contact.photo"></avatar></td></tr>
+                    <tr><td>Фамилия</td><td>{{$ctrl.contact.surname}}</td></tr>
+                    <tr><td>Имя</td><td>{{$ctrl.contact.firstName}}</td></tr>
+                    <tr><td>Страна</td><td>{{$ctrl.contact.country}}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+    </div>
+</div>

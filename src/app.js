@@ -1,11 +1,13 @@
 import appRootTemplate from './app-root.tpl.html';
 
 import mailbox from './components/mailbox/mailbox';
+import contacts from './components/contacts/contacts';
+import login from './components/login/login';
 
 import MailSrv from './services/mail-service';
 import UserSrv from './services/user-service';
 
-let app = angular.module('myApp', ['ui.router', mailbox]);
+let app = angular.module('myApp', ['ui.router', mailbox, contacts, login]);
 
 
 app.service('MailService', MailSrv);
@@ -21,18 +23,18 @@ app.config(($stateProvider, $urlRouterProvider) => {
     });
 
     $stateProvider.state({
-        name: 'user-list',
-        url: '/user',
-        template: '<user-list></user-list>'
+        name: 'contacts',
+        url: '/contacts',
+        template: '<contacts></contacts>'
     });
 
     $stateProvider.state({
-        name: 'user',
-        url: '/user/:userId',
-        template: '<user-card user-id="$ctrl.userId" user="$ctrl.user"></user-card>',
+        name: 'contact',
+        url: '/contacts/:contactId',
+        template: '<contact-card contact-id="$ctrl.contactId" contact="$ctrl.contact"></contact-card>',
         controller: function($stateParams, UserService, $log) {
-            this.userId = $stateParams.userId;
-            this.user = UserService.getUserById(this.userId);
+            this.contactId = $stateParams.contactId;
+            this.contact = UserService.getUserById(this.contactId);
         },
         controllerAs: '$ctrl'
     });
@@ -55,73 +57,7 @@ app.component('appRoot', {
     }]
 });
 
-
-app.component('userList', {
-    bindings: {
-        mode: '<'
-    },
-    templateUrl: './user-list.tpl.html',
-    controller: function($log, UserService) {
-
-        this.onlyWithPhoto = false;
-        this.users = UserService.users;
-
-        this.shouldShowUser = (user) => {
-            if(this.onlyWithPhoto && !user.photo) {
-                return false;
-            }
-            return true;
-        };
-
-    }
-});
-
-app.component('userCard', {
-    bindings: {
-        user: '<user',
-        userId: '<',
-        photoNeeded: '<photoNeeded'
-    },
-    templateUrl: './user-card.tpl.html',
-    controller: function($log) {
-        this.state = '';
-
-        this.$onInit = () => {
-            //$log.info('User Id', this.userId);
-        },
-
-            this.selectCard = () => {
-                $log.info('onlyWithPhoto=' + this.photoNeeded);
-                $log.info('User Id', this.userId);
-
-                this.state = this.state === 'selected' ? '' : 'selected';
-            };
-        this.getSelected = () => {
-            return this.state;
-        };
-        this.isVisible = () => {
-
-            //$log.info('photoNeeded:', this.photoNeeded, 'Avatar:', this.user.photo);
-            if(this.photoNeeded && !this.user.photo) {
-                return false;
-            }
-            return true;
-        };
-    }
-});
-
-app.component('avatar', {
-    bindings: {
-        image: '<image'
-    },
-    templateUrl: './avatar.tpl.html',
-    controller: function($log) {
-        this.say = () => {
-            $log.info('hey!');
-        };
-    }
-});
-
+/*
 app.component('login', {
     bindings: {
     },
@@ -140,4 +76,4 @@ app.component('login', {
     }
 });
 
-
+*/
