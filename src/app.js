@@ -1,6 +1,4 @@
 import appRootTemplate from './app-root.tpl.html';
-//import letterListTemplate from './components/mailbox/letter-list.html';
-//import letterTemplate from './letter.tpl.html';
 
 import mailbox from './components/mailbox/mailbox';
 
@@ -57,64 +55,6 @@ app.component('appRoot', {
     }]
 });
 
-//app.component('letterList', letterListComponent);
-
-/*
-
-app.component('letterList', {
-    bindings: {
-    },
-    template: letterListTemplate,
-    controller: function($log, $timeout, MailService) {
-
-        this.letters = MailService.letters;
-
-        this.removeLetter = (letter) => {
-            MailService.removeLetter(letter);
-        };
-
-        this.shouldDisplayLetter = (letterIndex) => {
-
-            if(letterIndex < 15) {
-                return true;
-            }
-            return false;
-        };
-    }
-});
-
-app.component('letter', {
-    bindings: {
-        letter: '<',
-        remove: '&'
-    },
-    template: letterTemplate,
-    controller: function($log) {
-        this.removeLetter = () => {
-            $log.info('Removing letter with title', this.letter.title);
-            this.remove(this.letter);
-        };
-        this.$onInit = function() {
-            //$log.info('$onInit', this.letter);
-            this.letter.displaytime = new Date();
-        };
-        this.$onDestroy = function() {
-            $log.info('Letter\'s display time is', (new Date() - this.letter.displaytime) / 1000, 'seconds');
-        };
-
-        this.getDisplayDate = () => {
-            var now = new Date();
-            var timestamp = this.letter.timestamp;
-            var strDate = timestamp.toLocaleDateString();
-            if( (now - timestamp) / 1000 < 86400 && now.getDate() === timestamp.getDate()) {
-                strDate = 'сегодня'
-            }
-            return strDate + ', ' + this.letter.timestamp.toLocaleTimeString(); //getDate() + '.' + this.letter.timestamp.getMonth()+1 + '.' + this;
-        };
-    }
-});
-
-*/
 
 app.component('userList', {
     bindings: {
