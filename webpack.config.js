@@ -5,7 +5,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   devtool: 'source-map',
   entry: {
-     app: ['./src/app/app.js']
+     app: ['./src/app.js']
   },
   output: {
     filename: '[name].bundle.js',
