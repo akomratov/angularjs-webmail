@@ -1,28 +1,27 @@
 export default class LoginController {
 
-    static $inject = ['$log', 'AuthService'];
+    static $inject = ['$log', '$state', 'AuthService'];
 
-    constructor ($log, AuthService) {
+    constructor ($log, $state, AuthService) {
         this._$log = $log;
         this._authService = AuthService;
+        this._$state = $state;
 
-        this.login = 'a.komratov@yandex.ru';
+        this.user = 'a.komratov@yandex.ru';
         this.password = 'komratov';
     }
 
-    onLogin = () => {
-        this._$log.info('Login button was pressed', this.login, this.password);
-        this._authService.login(this.login, this.password)
+    login = (user, password) => {
+        this._$log.info('Login button was pressed', user, password);
+        this._authService.login(user, password)
             .then(resp => this.handleResponse(resp),
                   resp => this.handleResponse(resp));
     };
 
     handleResponse = (resp) => {
         this._authService.processLoginResponse(resp);
-        if(this._authService.isAuthorized()) {
-            this._$log.info('Authorization is successfull');
-        } else {
-            this._$log.error('Authorization failed!')
+        if (this._authService.isAuthorized()) {
+            this._$state.go('mailbox');
         }
     }
 }

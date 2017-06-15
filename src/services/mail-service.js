@@ -80,11 +80,9 @@ export default class MailService {
         let url = 'http://random.vkhs.ru/api/v1/mailbox/inbox';
         url = id ? url + '/' + id : url;
 
-        this._$log.info('MailService.getInbound()', url);
+        this._$log.info('MailService.getInbound()', {name: 'Alice'} );
 
-        return this._$http({method: 'GET', url: url, headers: {
-            'Authorization': 'Bearer ' + this._authService.getAuthToken() }
-        });
+        return this._$http({method: 'GET', url: url, headers: { ...this._authService.getAuthTokenForHeader() }});
     };
 
     processInboundResponse = (resp) => {

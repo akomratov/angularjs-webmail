@@ -1,13 +1,13 @@
 <div class="row">
     <div class="col-md-4">
-        <form ng-submit="$ctrl.onLogin()"
+        <form ng-submit="$ctrl.login($ctrl.user, $ctrl.password)"
               novalidate="novalidate">
 
             <div class="form-group" >
                 <label class="control-label">Имя пользователя</label >
                 <input type="text"
                        class="form-control"
-                       ng-model="$ctrl.login"
+                       ng-model="$ctrl.user"
                        width="100px"
                        required="required" >
             </div >

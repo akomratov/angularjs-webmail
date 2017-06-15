@@ -9,8 +9,8 @@ export default class AuthService {
         this.token = undefined;
     }
 
-    login = (login, password) => {
-        return this._$http.post('http://random.vkhs.ru/api/v1/mailbox/login', { email: login, password: password});
+    login = (user, password) => {
+        return this._$http.post('http://random.vkhs.ru/api/v1/mailbox/login', { email: user, password: password});
     }
 
     processLoginResponse = (resp) => {
@@ -34,6 +34,10 @@ export default class AuthService {
 
     getAuthToken = () => {
         return this.token;
+    }
+
+    getAuthTokenForHeader = () => {
+        return { 'Authorization': 'Bearer ' + this.getAuthToken() };
     }
 }
 
