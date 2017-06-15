@@ -1,11 +1,12 @@
 export default class MailService {
 
-    static $inject = ['$log', '$timeout', '$http'];
+    static $inject = ['$log', '$timeout', '$http', 'AuthService'];
 
-    constructor($log, $timeout, $http) {
+    constructor($log, $timeout, $http, AuthService) {
         this._$log = $log;
         this._$timeout = $timeout;
         this._$http = $http;
+        this._authService = AuthService;
 
         this.letters = [];
         $timeout(() => { this.startMailService() }, 2000);
@@ -74,6 +75,27 @@ export default class MailService {
         this.getRandomLetterByHTTP();
     };
 
+    getInbound = (id) => {
+
+        let url = 'http://random.vkhs.ru/api/v1/mailbox/inbox';
+        url = id ? url + '/' + id : url;
+
+        this._$log.info('MailService.getInbound()', url);
+
+        return this._$http({method: 'GET', url: url, headers: {
+            'Authorization': 'Bearer ' + this._authService.getAuthToken() }
+        });
+    };
+
+    processInboundResponse = (resp) => {
+        if(resp.status === 200) {
+            return resp.data;
+        }
+
+        this._$log.error('Reading Inbound failed during HTTP GET with code ', resp.status, resp.statusText);
+        return null;
+    };
+
     getLettersByHTTP = (num) => {
         this._$http.get('http://random.vkhs.ru/letters/' + num).then(
             (successResponse) => {
@@ -87,6 +109,7 @@ export default class MailService {
                 this._$log.info('Error occurred during HTTP GET request', errorResponse);
             }
         );
+
     };
 
     getRandomLetterByHTTP = () => {

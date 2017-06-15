@@ -6,12 +6,15 @@ import login from './components/login/login';
 
 import MailSrv from './services/mail-service';
 import UserSrv from './services/user-service';
+import AuthSrv from './services/auth-service';
+
 
 let app = angular.module('myApp', ['ui.router', mailbox, contacts, login]);
 
 
 app.service('MailService', MailSrv);
 app.service('UserService', UserSrv);
+app.service('AuthService', AuthSrv);
 
 
 app.config(($stateProvider, $urlRouterProvider) => {
@@ -57,23 +60,3 @@ app.component('appRoot', {
     }]
 });
 
-/*
-app.component('login', {
-    bindings: {
-    },
-    templateUrl: './login.tpl.html',
-    controller: function($log) {
-        this.login = 'username';
-        this.password = 'password'
-
-        this.$onInit = () => {
-            //$log.info('Currency converter $onInit()');
-        };
-
-        this.onLogin = () => {
-            $log.info('Login button was pressed', this.login, this.password);
-        };
-    }
-});
-
-*/

@@ -4,7 +4,14 @@ export default class MailboxController {
 
     constructor($log, $timeout, MailService) {
 
-        this.letters = MailService.letters;
+        this._$log = $log;
+        this._mailService = MailService;
+
+        this.letters = this._mailService.letters;
+
+        this._mailService.getInbound()
+            .then(resp => this.handleInboundResponse(resp),
+                  resp => this.handleInboundResponse(resp));
 
         this.removeLetter = (letter) => {
             MailService.removeLetter(letter);
@@ -17,5 +24,10 @@ export default class MailboxController {
             }
             return false;
         };
+    }
+
+    handleInboundResponse = (resp) => {
+        let data = this._mailService.processInboundResponse(resp);
+        this._$log.info('Inbound response', data);
     }
 };
