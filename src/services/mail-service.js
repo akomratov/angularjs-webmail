@@ -80,8 +80,6 @@ export default class MailService {
         let url = 'http://random.vkhs.ru/api/v1/mailbox/inbox';
         url = id ? url + '/' + id : url;
 
-        this._$log.info('MailService.getInbound()', {name: 'Alice'} );
-
         return this._$http({method: 'GET', url: url, headers: { ...this._authService.getAuthTokenForHeader() }});
     };
 
@@ -104,7 +102,7 @@ export default class MailService {
                 );
             },
             (errorResponse) => {
-                this._$log.info('Error occurred during HTTP GET request', errorResponse);
+                this._$log.error('Error occurred during HTTP GET request', errorResponse);
             }
         );
 
