@@ -10,3 +10,5 @@ export const URL_HOME_MAIL = '/mail';
 export const URL_HOME_CONTACTS = '/contacts';
 export const URL_HOME_SINGLE_CONTACT = '/contacts/:contactId';
 export const URL_LOGIN = '/login';
+
+export const REST_SERVICE_URL = 'http://random.vkhs.ru';

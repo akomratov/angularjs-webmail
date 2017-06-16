@@ -33,9 +33,9 @@ let routerModule = angular.module('myApp.Router', [
             name: STATE_HOME_SINGLE_CONTACT,
             url: URL_HOME_SINGLE_CONTACT,
             template: '<contact-card contact-id="$ctrl.contactId" contact="$ctrl.contact"></contact-card>',
-            controller: function ($stateParams, UserService, $log) {
+            controller: function ($stateParams, $injector, $log) {
                 this.contactId = $stateParams.contactId;
-                this.contact = UserService.getUserById(this.contactId);
+                this.contact = $injector.get('UserService').getUserById(this.contactId);
             },
             controllerAs: '$ctrl'
         });
@@ -55,6 +55,7 @@ let routerModule = angular.module('myApp.Router', [
             return $injector.get('$state').go(STATE_DEFAULT);
         });
     });
+
 
 routerModule.run(($transitions, $q, $log, AuthService) => {
     $transitions.onEnter({to: 'home.**'}, ($state$, $transitions$) => {
