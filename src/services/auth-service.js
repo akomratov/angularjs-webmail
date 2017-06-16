@@ -13,6 +13,11 @@ export default class AuthService {
         return this._$http.post('http://random.vkhs.ru/api/v1/mailbox/login', { email: user, password: password});
     }
 
+    logout = () => {
+        this.expireSession();
+    }
+
+
     processLoginResponse = (resp) => {
         if(resp.status === 200) {
             this.token = resp.data.token;

@@ -1,24 +1,37 @@
+import { STATE_HOME, STATE_HOME_MAIL, STATE_HOME_CONTACTS, STATE_HOME_SINGLE_CONTACT, STATE_LOGIN, STATE_DEFAULT,
+         URL_HOME, URL_HOME_CONTACTS, URL_HOME_SINGLE_CONTACT, URL_HOME_MAIL, URL_LOGIN, URL_LOGOUT } from './constants';
+
 let routerModule = angular.module('myApp.Router', [
     'ui.router'])
 
-    .config(($stateProvider, $urlRouterProvider) => {
+    .config(($stateProvider, $urlRouterProvider, $qProvider) => {
 
         "ngInject";
+
+        $qProvider.errorOnUnhandledRejections(false);
+
         $stateProvider.state({
-            name: 'mailbox',
-            url: '/mail',
+            name: STATE_HOME,
+            url: URL_HOME,
+            abstract: true,
+            template: '<home><ui-view></ui-view></home>'
+        });
+
+        $stateProvider.state({
+            name: STATE_HOME_MAIL,
+            url: URL_HOME_MAIL,
             template: '<mailbox></mailbox>'
         });
 
         $stateProvider.state({
-            name: 'contacts',
-            url: '/contacts',
+            name: STATE_HOME_CONTACTS,
+            url: URL_HOME_CONTACTS,
             template: '<contacts></contacts>'
         });
 
         $stateProvider.state({
-            name: 'contact',
-            url: '/contacts/:contactId',
+            name: STATE_HOME_SINGLE_CONTACT,
+            url: URL_HOME_SINGLE_CONTACT,
             template: '<contact-card contact-id="$ctrl.contactId" contact="$ctrl.contact"></contact-card>',
             controller: function ($stateParams, UserService, $log) {
                 this.contactId = $stateParams.contactId;
@@ -28,57 +41,29 @@ let routerModule = angular.module('myApp.Router', [
         });
 
         $stateProvider.state({
-            name: 'login',
-            url: '/login',
+            name: STATE_LOGIN,
+            url: URL_LOGIN,
             template: '<login></login>'
         });
 
-        $urlRouterProvider.otherwise("/login");
-    })
-
-    .name;
-
-export default routerModule;
-
-// WANTED TO DO THIS WAY
-/*
-export default class Router {
-    constructor($stateProvider, $urlRouterProvider) {
-
-        this._$state = $stateProvider;
-        this._$url = $urlRouterProvider;
-
-        this._$state.state({
-            name: 'mailbox',
-            url: '/mail',
-            template: '<mailbox></mailbox>'
+        $urlRouterProvider.$inject = ['$injector'];
+        $urlRouterProvider.otherwise(($injector) => {
+            let authSrv = $injector.get('AuthService');
+            if (!authSrv.isAuthorized()) {
+                return $injector.get('$state').go(STATE_LOGIN);;
+            }
+            return $injector.get('$state').go(STATE_DEFAULT);
         });
+    });
 
-        this._$state.state({
-            name: 'contacts',
-            url: '/contacts',
-            template: '<contacts></contacts>'
-        });
+routerModule.run(($transitions, $q, $log, AuthService) => {
+    $transitions.onEnter({to: 'home.**'}, ($state$, $transitions$) => {
+        if (!AuthService.isAuthorized()) {
+            return $state$.router.stateService.target(STATE_LOGIN);
+        }
+    });
+});
 
-        this._$state.state({
-            name: 'contact',
-            url: '/contacts/:contactId',
-            template: '<contact-card contact-id="$ctrl.contactId" contact="$ctrl.contact"></contact-card>',
-            controller: function ($stateParams, UserService, $log) {
-                this.contactId = $stateParams.contactId;
-                this.contact = UserService.getUserById(this.contactId);
-            },
-            controllerAs: '$ctrl'
-        });
 
-        this._$state.state({
-            name: 'login',
-            url: '/login',
-            template: '<login></login>'
-        });
 
-        this._$url.otherwise("/login");
-
-    }
-}
-*/
+export default routerModule.name;

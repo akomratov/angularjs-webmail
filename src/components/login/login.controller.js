@@ -1,3 +1,5 @@
+import { STATE_DEFAULT } from '../../constants';
+
 export default class LoginController {
 
     static $inject = ['$log', '$state', 'AuthService'];
@@ -21,7 +23,7 @@ export default class LoginController {
     handleResponse = (resp) => {
         this._authService.processLoginResponse(resp);
         if (this._authService.isAuthorized()) {
-            this._$state.go('mailbox');
+            this._$state.go(STATE_DEFAULT);
         }
     }
 }

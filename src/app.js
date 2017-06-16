@@ -4,18 +4,22 @@ import mailbox from './components/mailbox/mailbox';
 import contacts from './components/contacts/contacts';
 import login from './components/login/login';
 import router from './router';
-
+import home from './components/home';
 
 import MailSrv from './services/mail-service';
 import UserSrv from './services/user-service';
 import AuthSrv from './services/auth-service';
 
-
-let app = angular.module('myApp', [mailbox, contacts, login, router]);
+let app = angular.module('myApp', [mailbox, contacts, login, router, home]);
 
 app.service('MailService', MailSrv);
 app.service('UserService', UserSrv);
 app.service('AuthService', AuthSrv);
+
+
+app.component('appRoot', {
+    template: appRootTemplate
+});
 
 
 // WANTED TO DO THIS WAY
@@ -59,12 +63,3 @@ app.config(($stateProvider, $urlRouterProvider) => {
 });
 
 */
-
-app.component('appRoot', {
-    template: appRootTemplate,
-    controller: ['$log', '$timeout', 'MailService', 'UserService', function($log, $timeout, MailService, UserService) {
-        this.MailBox = MailService;
-        this.UserService = UserService;
-    }]
-});
-

@@ -1,22 +1,24 @@
 <div class="container-fluid">
 
     <div class="row">
-
+<!--
         <div class="col-lg-2">
             <div class="panel panel-info">
                 <ul class="list-group">
-                    <li class="list-group-item" ui-sref="mailbox" ui-sref-active="active">
-                        <a ui-sref="mailbox">Входящие <span class="badge">{{$ctrl.MailBox.letters.length}}</span></a></li>
-                    <li class="list-group-item" ui-sref="contacts" ui-sref-active="active">
-                        <a ui-sref="contacts">Контакты <span class="badge">{{$ctrl.UserService.users.length}}</span></a></li>
+                    <li class="list-group-item" ui-sref="home.mail" ui-sref-active="active">
+                        <a ui-sref="home.mail">Входящие <span class="badge">{{$ctrl._MailBox.letters.length}}</span></a></li>
+                    <li class="list-group-item" ui-sref="home.contacts" ui-sref-active="active">
+                        <a ui-sref="home.contacts">Контакты <span class="badge">{{$ctrl._UserService.users.length}}</span></a></li>
+                    <li class="list-group-item list-group-warning" ng-click="$ctrl.logout()">
+                        <a href="#">Выход</a></li>
                     <li class="list-group-item" ui-sref="login" ui-sref-active="active">
-                        <a ui-sref="login">Выход</a></li>
+                        <a ui-sref="login">Вход</a></li>
                 </ul>
             </div>
 
         </div>
-
-        <div class="col-lg-10">
+-->
+        <div class="col-lg-push-1 col-lg-9">
             <ui-view></ui-view>
         </div>
 
