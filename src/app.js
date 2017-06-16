@@ -3,20 +3,27 @@ import appRootTemplate from './app-root.tpl.html';
 import mailbox from './components/mailbox/mailbox';
 import contacts from './components/contacts/contacts';
 import login from './components/login/login';
+import router from './router';
+
 
 import MailSrv from './services/mail-service';
 import UserSrv from './services/user-service';
 import AuthSrv from './services/auth-service';
 
 
-let app = angular.module('myApp', ['ui.router', mailbox, contacts, login]);
-
+let app = angular.module('myApp', [mailbox, contacts, login, router]);
 
 app.service('MailService', MailSrv);
 app.service('UserService', UserSrv);
 app.service('AuthService', AuthSrv);
 
 
+// WANTED TO DO THIS WAY
+// import Router from './router';
+// app.config(Router);
+
+
+/*
 app.config(($stateProvider, $urlRouterProvider) => {
 
     $stateProvider.state({
@@ -51,6 +58,7 @@ app.config(($stateProvider, $urlRouterProvider) => {
     $urlRouterProvider.otherwise("/");
 });
 
+*/
 
 app.component('appRoot', {
     template: appRootTemplate,
